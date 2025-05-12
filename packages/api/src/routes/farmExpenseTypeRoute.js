@@ -26,6 +26,10 @@ router.post(
   checkScope(['add:expense_types']),
   farmExpenseTypeController.addFarmExpenseType(),
 );
+router.get(
+  '/all',
+  farmExpenseTypeController.getAllFarmExpenseTypeAndNames(),
+);
 
 router.get(
   '/farm/:farm_id',
