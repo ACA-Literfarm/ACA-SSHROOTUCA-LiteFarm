@@ -26,12 +26,22 @@ router.post(
   checkScope(['add:revenue_types']),
   RevenueTypeController.addType(),
 );
+
+// Getting the revenue types for a farm
 router.get(
   '/farm/:farm_id',
-  hasFarmAccess({ params: 'farm_id' }),
-  checkScope(['get:revenue_types']),
-  RevenueTypeController.getFarmRevenueType(),
+  hasFarmAccess({ params: 'farm_id' }), // Check if the user has access to the farm
+  checkScope(['get:revenue_types']), // Middleware to check if the user has the required scope
+  RevenueTypeController.getFarmRevenueType(), // Controller method to get revenue types for the farm
 );
+
+// Add new route to get revenue types by user
+router.get(
+  '/user/:user_id',
+  checkScope(['get:revenue_types']),
+  RevenueTypeController.getRevenueTypesByUser(),
+);
+
 router.get(
   '/:revenue_type_id',
   hasFarmAccess({ params: 'revenue_type_id' }),

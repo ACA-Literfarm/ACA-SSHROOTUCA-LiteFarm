@@ -17,10 +17,43 @@ import baseController from './baseController.js';
 
 import RevenueTypeModel from '../models/revenueTypeModel.js';
 import SaleModel from '../models/saleModel.js';
+import UserFarmModel from '../models/userFarmModel.js';
 import { transaction, Model } from 'objection';
 import { formatTranslationKey } from '../util/util.js';
 
 const revenueTypeController = {
+  getRevenueTypesByUser() {
+    return async (req, res) => {
+      try {
+        const { user_id } = req.params;
+
+        // Get user's farm association
+        const userFarm = await UserFarmModel.query()
+          .where('user_id', user_id)
+          .andWhere('status', 'Active')
+          .first();
+
+        if (!userFarm) {
+          return res.status(404).send('User not found or not associated with any farm');
+        }
+
+        // Get revenue types for user's farm
+        const rows = await RevenueTypeModel.query()
+          .where('farm_id', null) // Get default types
+          .orWhere({ farm_id: userFarm.farm_id }); // Get farm specific types
+
+        if (!rows.length) {
+          return res.sendStatus(404);
+        }
+
+        return res.status(200).send(rows);
+      } catch (error) {
+        console.log(error);
+        return res.status(400).json({ error });
+      }
+    };
+  },
+
   addType() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
