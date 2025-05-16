@@ -46,7 +46,12 @@ const revenueTypeController = {
           return res.sendStatus(404);
         }
 
-        return res.status(200).send(rows);
+        // Return the revenue types enclosed in a data object
+        // to match the expected response format
+        // This is useful for the client-side code that expects a data object
+        // instead of a plain array
+        // Example: { data: [ ... ] }
+        return res.status(200).json({ data: rows });
       } catch (error) {
         console.log(error);
         return res.status(400).json({ error });
