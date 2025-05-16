@@ -220,6 +220,26 @@ class userFarm extends Model {
       .where('userFarm.farm_id', farmId)
       .andWhere('users.status_id', 1);
   }
+
+  /**
+   * Retrieves all farm IDs linked to a specific user.
+   * @param {string} user_id - The ID of the user.
+   * @returns {Array} Array of farm objects with farm_id and farm_name.
+   */
+  static async getFarmsByUserId(user_id) {
+    try {
+      return await userFarm
+        .query()
+        .select('userFarm.farm_id', 'farm.farm_name')
+        .join('farm', 'userFarm.farm_id', 'farm.farm_id')
+        .where('userFarm.user_id', user_id)
+        .andWhere('userFarm.status', 'Active')
+        .andWhereNot('farm.deleted', true);
+    } catch (error) {
+      console.error(`Error in getFarmsByUserId for user_id ${user_id}:`, error);
+      throw new Error('Failed to retrieve farms for the user.');
+    }
+  }
 }
 
 export default userFarm;

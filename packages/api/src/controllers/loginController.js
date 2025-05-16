@@ -91,9 +91,18 @@ const loginController = {
         }
 
         const id_token = await createToken('access', { user_id: userData.user_id });
+
+        // Retrieve farms linked to the user
+        const farms = await UserFarmModel.getFarmsByUserId(userData.user_id);
+
+        if (!farms || farms.length === 0) {
+          console.warn(`No farms found for user_id: ${userData.user_id}`);
+        }
+
         return res.status(200).send({
           id_token,
           user: userData,
+          farms,
         });
       } catch (error) {
         await UserLogModel.query().insert({
