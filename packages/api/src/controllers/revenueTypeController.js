@@ -61,6 +61,7 @@ const revenueTypeController = {
     };
   },
 
+  // Get all revenue types
   getFarmRevenueType() {
     return async (req, res) => {
       try {

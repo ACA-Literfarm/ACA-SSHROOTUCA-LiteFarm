@@ -307,7 +307,10 @@ app
   .use('/crop_variety', cropVarietyRoutes)
   .use('/field', fieldRoutes)
   .use('/sale', saleRoutes)
+
+  // Route registration to retrieve user farm  revenue type
   .use('/revenue_type', revenueTypeRoute)
+
   .use('/task_type', taskTypeRoutes)
   .use('/soil_amendment_purposes', soilAmendmentPurposeRoute)
   .use('/soil_amendment_methods', soilAmendmentMethodRoute)
@@ -326,7 +329,10 @@ app
   .use('/price', priceRoutes)
   .use('/insight', insightRoutes)
   .use('/farmdata', userFarmDataRoute)
+
+  // Route registration to retrieve user farm data
   .use('/user_farm', userFarmRoute)
+
   .use('/roles', rolesRoutes)
   .use('/organic_certifier_survey', organicCertifierSurveyRoutes)
   .use('/support_ticket', supportTicketRoute)

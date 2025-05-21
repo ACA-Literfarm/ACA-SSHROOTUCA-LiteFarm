@@ -31,6 +31,7 @@ const validStatusChanges = {
 };
 
 const userFarmController = {
+  // Get all farms for a user
   getUserFarmByUserID() {
     return async (req, res) => {
       try {

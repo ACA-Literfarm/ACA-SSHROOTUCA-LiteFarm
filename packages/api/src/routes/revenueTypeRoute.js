@@ -26,12 +26,18 @@ router.post(
   checkScope(['add:revenue_types']),
   RevenueTypeController.addType(),
 );
+
+// Route to get all revenue types for a specific farm
+// Before this route is executed, the user must have access to the farm
+// and the scope 'get:revenue_types' must be checked
 router.get(
   '/farm/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['get:revenue_types']),
   RevenueTypeController.getFarmRevenueType(),
 );
+//
+
 router.get(
   '/:revenue_type_id',
   hasFarmAccess({ params: 'revenue_type_id' }),
