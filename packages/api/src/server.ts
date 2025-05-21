@@ -304,7 +304,10 @@ app
   .use('/location', locationRoute)
   .use('/userLog', userLogRoute)
   .use('/crop', cropRoutes)
+
+  // Route for crop varieties logic
   .use('/crop_variety', cropVarietyRoutes)
+
   .use('/field', fieldRoutes)
   .use('/sale', saleRoutes)
   .use('/revenue_type', revenueTypeRoute)
