@@ -54,6 +54,19 @@ const farmExpenseTypeController = {
     };
   },
 
+  getAllFarmExpenseTypeAndNames() {
+    return async (_, res) => {
+      try {
+        const result = await ExpenseTypeModel.query().select('expense_type_id', 'expense_name');
+        res.status(200).send(result);
+      } catch (error) {
+        res.status(400).json({
+          error: error.message || 'An unexpected error occurred',
+        });
+      }
+    };
+  },
+
   getFarmExpenseType() {
     return async (req, res) => {
       try {
