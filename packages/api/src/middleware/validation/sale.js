@@ -23,6 +23,11 @@ async function validateSale(req, res, next) {
   }
 
   const revenueType = await RevenueTypeModel.query().findById(revenue_type_id);
+
+  if (!revenueType) {
+    return res.status(400).send('Invalid revenue type');
+  }
+
   const isCropRevenue = revenueType.crop_generated;
   if (isCropRevenue && !(crop_variety_sale && crop_variety_sale[0])) {
     return res.status(400).send('crop_variety_sale is required');
