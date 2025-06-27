@@ -77,7 +77,7 @@ const farmExpenseTypeController = {
       try {
         const farm_id = req.params.farm_id;
         logger.info(farm_id);
-        const result = await ExpenseTypeModel.query().where('farm_id', farm_id);
+        const result = await ExpenseTypeModel.query().where('farm_id', farm_id).orWhere('farm_id', null);
         logger.info(result);
         res.status(200).send(result);
       } catch (error) {
