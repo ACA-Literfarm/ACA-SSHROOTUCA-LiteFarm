@@ -19,6 +19,7 @@ import ExpenseTypeModel from '../models/expenseTypeModel.js';
 import FarmExpenseModel from '../models/farmExpenseModel.js';
 import { transaction, Model } from 'objection';
 import { formatTranslationKey } from '../util/util.js';
+import logger from '../common/logger.js';
 
 const farmExpenseTypeController = {
   addFarmExpenseType() {
@@ -55,9 +56,13 @@ const farmExpenseTypeController = {
   },
 
   getAllFarmExpenseTypeAndNames() {
-    return async (_, res) => {
+    return async (req, res) => {
       try {
-        const result = await ExpenseTypeModel.query().select('expense_type_id', 'expense_name');
+        const farm_id = req.headers.farm_id;
+        const result = await ExpenseTypeModel.query()
+          .where('farm_id', null)
+          .orWhere('farm_id', farm_id)
+          .select('expense_type_id', 'expense_name');
         res.status(200).send(result);
       } catch (error) {
         res.status(400).json({
@@ -71,9 +76,9 @@ const farmExpenseTypeController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const result = await ExpenseTypeModel.query()
-          .where('farm_id', null)
-          .orWhere('farm_id', farm_id);
+        logger.info(farm_id);
+        const result = await ExpenseTypeModel.query().where('farm_id', farm_id);
+        logger.info(result);
         res.status(200).send(result);
       } catch (error) {
         res.status(400).json({
