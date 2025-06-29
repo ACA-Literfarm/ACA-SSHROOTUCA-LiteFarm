@@ -18,12 +18,14 @@ import baseController from '../controllers/baseController.js';
 import FarmExpenseModel from '../models/farmExpenseModel.js';
 import ExpenseType from '../models/expenseTypeModel.js';
 import { transaction, Model } from 'objection';
+import logger from '../common/logger.js';
 
 const farmExpenseController = {
   addFarmExpense() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
+        logger.info(req.body);
         const expenses = req.body;
         if (!Array.isArray(expenses)) {
           res.status(400).send('needs to be an array of expense items');
