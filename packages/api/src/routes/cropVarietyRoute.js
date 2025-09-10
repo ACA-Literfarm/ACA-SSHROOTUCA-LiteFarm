@@ -30,12 +30,16 @@ router.get(
   checkScope(['get:crop_variety']),
   cropVarietyController.getCropVarietyByCropVarietyId(),
 );
+
+// Route to get all crop varieties by farm id
+// Farm id must be passed in the request params and the user must have access to the farm
 router.get(
   '/farm/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['get:crop_variety']),
   cropVarietyController.getCropVarietiesByFarmId(),
 );
+
 router.post(
   '/',
   hasFarmAccess({ body: 'farm_id' }),
